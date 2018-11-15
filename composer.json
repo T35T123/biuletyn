@@ -1,0 +1,11 @@
+{
+    "name": "wojtek2kdev/biuletyn",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Wojciech Sadowski",
+            "email": "wojtek2kdev@gmail.com"
+        }
+    ],
+    "require": {}
+}
