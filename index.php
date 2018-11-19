@@ -1,4 +1,12 @@
-<?php
+<?php 
+
+  require("vendor/autoload.php");
+
+  use Symfony\Component\Yaml\Yaml;
+
+  $cinema = Yaml::parseFile('data/kino.yml');
+
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,10 +19,18 @@
 </head>
 <body>
   <div id="app">
-    <div id="weather"></div>
+    <div id="weather">
+      <h1>Pogoda</h1>
+      <img src="" alt="weather_icon" id="weather_icon">
+      <span id="temperature"></span>
+    </div>
     <div id="number"></div>
     <div id="cinema">
-      <h1>Wyjscie do kina</h1>
+    <h1>Wyjscie do kina</h1>
+    <ul>
+      <li><strong>Tytul filmu: </strong><?php echo($cinema['title'])?></li>
+      <li><strong>Data wyjscia: </strong><?php echo($cinema['date'])?></li>
+    </ul>
     </div>
     <main>
       <div id="newses"></div>
@@ -23,4 +39,5 @@
   </div>
 </body>
 </html>
+
 
