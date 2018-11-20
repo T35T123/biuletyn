@@ -28,7 +28,7 @@ body {
 
 #app > * {
 
-  border: 2px solid black;
+  border: 1px solid black;
 
   padding: 20px;
 
@@ -42,7 +42,24 @@ main {
 
 }
 
+.news {
+
+  margin: 15px;
+
+}
+
+.news-header {
+  
+  font-size: 1.2rem;
+
+}
+
 #weather {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr;
   
   grid-column: 1/2;
   grid-row: 1/2;
@@ -82,8 +99,6 @@ h1 {
 
   margin: 10px;
 
-  width: auto;
-
 }
 
 ul {
@@ -91,11 +106,5 @@ ul {
   list-style-type: none;  
 
   padding: 10px;
-
-}
-
-ul > li {
-
-  
 
 }

@@ -1,0 +1,17 @@
+#weather > ul {
+
+	grid-column: 1/3;
+
+}
+
+.weather_info {
+
+	font-weight: bold;
+	
+}
+
+#weather_icon {
+
+	margin: 10px;
+
+}
