@@ -45,6 +45,7 @@
   <script src="weather.js"></script>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+  <link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet"> 
   <link rel="stylesheet" href="weather.css">
   <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">   
   <title></title>
@@ -60,8 +61,12 @@
         <li>Ciśnienie: <span class="weather_info" id="pressure"></span> hPa</li>
       </ul>
     </div>
-    <div id="number">
-      <h1 style="color: green;">Wolne miejsce</h1>
+    <div id="time-container">
+      <div id="time">
+        <span class="time time-hours"></span>:
+        <span class="time time-minutes"></span>:
+        <span class="time time-seconds"></span>
+      </div>
     </div>
     <div id="cinema">
     <h1>Wyjscie do kina</h1>
@@ -89,9 +94,9 @@
   <script>
     
     $('#newses').slick({
-      autoplaySpeed: 5000,
+      autoplaySpeed: 20000,
       autoplay: true,
-      speed: 3000,
+      speed: 2000,
       arrows: false,
       vertical: true,
       pauseOnFocus: false,
@@ -100,6 +105,18 @@
       touchMove: false,
       waitForAnimate: false
     });
+
+    setInterval(function(){
+
+      const t = new Date(Date.now());
+
+      const [hour, minute, second] = document.querySelectorAll('.time-hours,.time-minutes,.time-seconds');
+
+      hour.innerText = `${t.getHours()}`;
+      minute.innerText = `${t.getMinutes()}`;
+      second.innerText = `${t.getSeconds()}`;
+
+    }, 1000);
 
   </script>
 </body>
