@@ -10,6 +10,8 @@ body {
   margin: 0;
   padding: 0;
 
+  overflow: hidden;
+
 }
 
 #app {
@@ -39,6 +41,12 @@ main {
   grid-column: 2/3;
   
   grid-row: 1/4;
+
+}
+
+.slick-slide {
+
+  height: 100vh !important;
 
 }
 
