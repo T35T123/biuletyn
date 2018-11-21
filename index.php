@@ -94,9 +94,9 @@
   <script>
     
     $('#newses').slick({
-      autoplaySpeed: 0,
+      autoplaySpeed: 3000,
       autoplay: true,
-      speed: 3000,
+      speed: 5000,
       arrows: false,
       vertical: true,
       pauseOnFocus: false,
@@ -105,8 +105,7 @@
       touchMove: false,
       waitForAnimate: false,
       infinite: true,
-      cssEase: 'linear'
-    });
+    }).on('swipe', ({direction}) => console.log(direction));
 
     var maxHeight = -1;
     $('.slick-slide').each(function() {
