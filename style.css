@@ -42,11 +42,19 @@ main {
   
   grid-row: 1/4;
 
+  padding: 0px 10px 0px 10px !important;
+
+}
+
+.slick-list{
+
+  height: 100vh !important;
+
 }
 
 .slick-slide {
 
-  height: 100vh !important;
+  height: auto !important;
 
 }
 
@@ -132,11 +140,6 @@ main {
 
 }
 
-.time::text {
-  
-  font-size: 0;
-
-}
 
 .time-hours {
   color: red;

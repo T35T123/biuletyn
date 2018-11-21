@@ -43,8 +43,8 @@
         crossorigin="anonymous"></script>
   <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
   <script src="weather.js"></script>
-  <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+  <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet"> 
   <link rel="stylesheet" href="weather.css">
   <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">   
@@ -94,16 +94,30 @@
   <script>
     
     $('#newses').slick({
-      autoplaySpeed: 20000,
+      autoplaySpeed: 0,
       autoplay: true,
-      speed: 2000,
+      speed: 3000,
       arrows: false,
       vertical: true,
       pauseOnFocus: false,
       pauseOnHover: false,
       swipe: false,
       touchMove: false,
-      waitForAnimate: false
+      waitForAnimate: false,
+      infinite: true,
+      cssEase: 'linear'
+    });
+
+    var maxHeight = -1;
+    $('.slick-slide').each(function() {
+      if ($(this).height() > maxHeight) {
+        maxHeight = $(this).height();
+      }
+    });
+    $('.slick-slide').each(function() {
+      if ($(this).height() < maxHeight) {
+        $(this).css('margin', Math.ceil((maxHeight-$(this).height())/2) + 'px 0');
+      }
     });
 
     setInterval(function(){
