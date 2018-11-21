@@ -63,9 +63,9 @@
     </div>
     <div id="time-container">
       <div id="time">
-        <span class="time time-hours"></span>:
-        <span class="time time-minutes"></span>:
-        <span class="time time-seconds"></span>
+        <span class="time time-hours"></span><span>:</span><!--
+        --><span class="time time-minutes"></span><span>:</span><!--
+        --><span class="time time-seconds"></span>
       </div>
     </div>
     <div id="cinema">
@@ -112,9 +112,13 @@
 
       const [hour, minute, second] = document.querySelectorAll('.time-hours,.time-minutes,.time-seconds');
 
-      hour.innerText = `${t.getHours()}`;
-      minute.innerText = `${t.getMinutes()}`;
-      second.innerText = `${t.getSeconds()}`;
+      let h = t.getHours();
+      let m = t.getMinutes();
+      let s = t.getSeconds();
+
+      hour.innerText = `${h < 10 ? '0' + h : h}`;
+      minute.innerText = `${m < 10 ? '0' + m : m}`;
+      second.innerText = `${s < 10 ? '0' + s : s}`;
 
     }, 1000);
 

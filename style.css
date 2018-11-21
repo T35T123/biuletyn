@@ -120,9 +120,21 @@ main {
 
 }
 
+#time>#text {
+
+  width: 10px;
+
+}
+
 .time {
 
   white-space: nowrap;
+
+}
+
+.time::text {
+  
+  font-size: 0;
 
 }
 
