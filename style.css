@@ -46,6 +46,13 @@ main {
 
 }
 
+p {
+  
+  margin-top: 10px;
+  margin-bottom: 0px;
+
+}
+
 .slick-list{
 
   height: 100vh !important;
@@ -60,13 +67,15 @@ main {
 
 .news {
 
-  margin: 15px;
+  padding: 0px 15px;
 
 }
 
 .news-header {
   
   font-size: 1.2rem;
+  margin: 0;
+  padding: 15px;
 
 }
 

@@ -92,32 +92,36 @@
     </div>
   </div>
   <script>
-    
-    $('#newses').slick({
-      autoplaySpeed: 3000,
-      autoplay: true,
-      speed: 5000,
-      arrows: false,
-      vertical: true,
-      pauseOnFocus: false,
-      pauseOnHover: false,
-      swipe: false,
-      touchMove: false,
-      waitForAnimate: false,
-      infinite: true,
-    }).on('swipe', ({direction}) => console.log(direction));
 
-    var maxHeight = -1;
-    $('.slick-slide').each(function() {
-      if ($(this).height() > maxHeight) {
-        maxHeight = $(this).height();
+
+  //  $('.slick-slide[tabindex="0"]').css('margin-top', 'px 0');
+
+    const slides = $('#newses>article');
+    const height = window.innerHeight;
+
+    let jumps = [];
+
+    slides.each(function() {
+
+      const nodeHeight = $(this).height();
+
+      if(nodeHeight < height) jumps.push(nodeHeight);
+
+      else {
+
+        const parts = Math.round(nodeHeight / height);
+
+        for(let i=0; i<parts; i++){
+          jumps.push(height);
+        }
+
+        jumps.push(nodeHeight - height*parts);
+
       }
+
     });
-    $('.slick-slide').each(function() {
-      if ($(this).height() < maxHeight) {
-        $(this).css('margin', Math.ceil((maxHeight-$(this).height())/2) + 'px 0');
-      }
-    });
+
+    console.log(jumps);
 
     setInterval(function(){
 
