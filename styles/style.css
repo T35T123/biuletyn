@@ -77,7 +77,7 @@ p {
 
 #newses {
 
-  transition: transform 1000ms ease 0s;
+  /*transition: transform 1000ms ease 0s;*/
 
   display: grid;
 

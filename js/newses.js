@@ -8,6 +8,7 @@
 
   let currentJump = 0;
   let offset = 0;
+  let speed = 1000; //miliseconds
 
   const calculateJumps = () => {
     slides.forEach(n => {
@@ -42,9 +43,12 @@
        currentJump = -1;
        offset = 0;
        $(this).css('transform', `translate(0px, ${offset}px)`);
+       $(this).css('transition', `transform ${1}ms ease 0s`);
+       $('#newses>article:nth-child(0)').css('order', '2');
      }else{
        offset -= jumps[currentJump];
        $(this).css('transform', `translate(0px, ${offset}px)`);
+       $(this).css('transition', `transform ${speed}ms ease 0s`);
      }
 
     ++currentJump;
@@ -57,6 +61,7 @@
 
   calculateJumps();
 
+  $('#newses').css('transition', `transform ${speed}ms ease 0s`);
   $('#newses').css('transform', 'translate(0px, 0px)');
 
 
