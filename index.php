@@ -93,17 +93,16 @@
   </div>
   <script>
 
+    const slides = [...$('#newses>article')];
+    const height = $('main').height();
 
-  //  $('.slick-slide[tabindex="0"]').css('margin-top', 'px 0');
-
-    const slides = $('#newses>article');
-    const height = window.innerHeight;
+    if($(slides[slides.length - 1]).height() < height) slides.pop();
 
     let jumps = [];
 
-    slides.each(function() {
+    slides.forEach(n => {
 
-      const nodeHeight = $(this).height();
+      const nodeHeight = $(n).height();
 
       if(nodeHeight < height) jumps.push(nodeHeight);
 
@@ -120,6 +119,27 @@
       }
 
     });
+
+    let currentJump = 0;
+    let offset = 0;
+
+    $('#newses').on('transitionend', function(){
+
+       if(currentJump == jumps.length){
+         currentJump = -1;
+         offset = 0;
+         $(this).css('transform', `translate(0px, ${offset}px)`);
+       }else{
+         offset -= jumps[currentJump];
+         $(this).css('transform', `translate(0px, ${offset}px)`);
+       }
+
+      ++currentJump;
+
+    });
+
+    $('#newses').css('transform', 'translate(0px, 0px)');
+
 
     console.log(jumps);
 

@@ -12,6 +12,10 @@ body {
 
   overflow: hidden;
 
+  background: black;
+
+  color: white;
+
 }
 
 #app {
@@ -68,6 +72,14 @@ p {
 .news {
 
   padding: 0px 15px;
+
+}
+
+#newses {
+
+  transition: transform 4000ms ease 0s;
+
+  display: grid;
 
 }
 
