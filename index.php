@@ -6,26 +6,23 @@
 
   $cinema = Yaml::parseFile('data/kino.yml');
 
-  function insertData($directory){
+  function insertData($directory, $template, $isVerticalSlide){
 
       $files = array_slice(scandir($directory), 2);
-
-      $template = 
-      "
-          <article>
-            <h1 class='news-header'>title</h1>
-            <div class='news'>
-              <strong>date</strong>
-              <p>content</p>
-            </div>
-          </article>
-      ";
 
       foreach($files as $file){
 
         $data = Yaml::parseFile($directory.'/'.$file);
 
         echo(strtr($template, $data));
+
+      }
+
+      if($isVerticalSlide){
+
+        $firstArticle = Yaml::parseFile($directory.'/'.$files[0]);
+
+        echo(strtr($template, $firstArticle));
 
       }
 
@@ -54,7 +51,7 @@
   <div id="app">
     <div id="weather">
       <h1>Pogoda</h1>
-      <img src="" alt="weather_icon" id="weather_icon">
+      <img src="" id="weather_icon">
       <ul>
         <li>Temperatura: <span class="weather_info" id="temperature"></span></li>
         <li>Wilgotność: <span class="weather_info" id="humidity"></span>%</li>
@@ -78,15 +75,41 @@
     <main>
       <div id="newses">
         <?php 
-          insertData('data/komunikaty');
+
+          $newsTemplate = "
+            <article>
+              <h1 class='news-header'>title</h1>
+              <div class='news'>
+                <strong>date</strong>
+                <p>content</p>
+              </div>
+            </article>
+          ";
+
+          insertData('data/komunikaty', $newsTemplate, true);
+
         ?>
       </div>
     </main> 
     <div id="contests">
       <h1>Konkursy</h1>
       <?php 
-          insertData('data/konkursy');
+
+        $contestTemplate = "
+          <article>
+            <h1 class='news-header'>title</h1>
+            <div class='news'>
+              <strong>date</strong>
+              <p>content</p>
+            </div>
+          </article>
+        ";
+
+        insertData('data/konkursy', $contestTemplate);
+
+
       ?>
+
     </div>
   </div>
   <script src="js/newses.js"></script>

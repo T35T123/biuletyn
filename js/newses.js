@@ -1,24 +1,32 @@
-  
-  const slides = [...$('#newses>article')];
-  let height = $('main').height();
 
-  if($(slides[slides.length - 1]).height() < height) slides.pop();
 
-  let jumps = [];
+  let jumps;
 
-  let currentJump = 0;
-  let offset = 0;
-  let speed = 1000; //miliseconds
+  let currentJump;
+  let offset;
+  let speed = 2000; //miliseconds
 
   const calculateJumps = () => {
+
+      
+    const slides = [...$('#newses>article')];
+    let height = $('main').height();
+
+    if($(slides[slides.length - 1]).height() < height) slides.pop();
+    slides.pop();
+
+    jumps = [];
+    currentJump = 0;
+    offset = 0;
+
     slides.forEach(n => {
 
       const nodeHeight = $(n).height();
 
-      if(nodeHeight < height){
+      if(nodeHeight < height+10){
         
         jumps.push(height);
-        $(n).css('height', `100vh`);
+        //$(n).css('height', `100vh`);
 
       }
 
@@ -37,6 +45,20 @@
     });
   }
 
+  const initSliding = () => {
+
+    $('#newses').css('transition', `transform ${speed}ms ease 0s`);
+    $('#newses').css('transform', 'translate(0px, 0px)');
+
+  }
+
+  const stopSliding = () => {
+
+    $("#newses").css('transform', 'none');
+    $("#newses").css('transition', 'none');
+
+  }
+
   $('#newses').on('transitionend', function(){
 
      if(currentJump == jumps.length){
@@ -44,7 +66,6 @@
        offset = 0;
        $(this).css('transform', `translate(0px, ${offset}px)`);
        $(this).css('transition', `transform ${1}ms ease 0s`);
-       $('#newses>article:nth-child(0)').css('order', '2');
      }else{
        offset -= jumps[currentJump];
        $(this).css('transform', `translate(0px, ${offset}px)`);
@@ -56,13 +77,19 @@
   });
 
   $(window).resize(function(){
+
+    stopSliding();
+
     calculateJumps();
+
+//    $("#newses").css('transform', 'translate(0px, 0px)');
+
+    initSliding();
+  
   });
 
   calculateJumps();
-
-  $('#newses').css('transition', `transform ${speed}ms ease 0s`);
-  $('#newses').css('transform', 'translate(0px, 0px)');
+  initSliding();
 
 
   console.log(jumps);
