@@ -6,9 +6,26 @@
 
   $cinema = Yaml::parseFile('data/kino.yml');
 
+  function scandir_sort_by_date($directory){
+
+    $ignored = array('.', '..');
+
+    $files = array();    
+    foreach (scandir($directory) as $file) {
+        if (in_array($file, $ignored)) continue;
+        $files[$file] = filemtime($directory . '/' . $file);
+    }
+
+    arsort($files);
+    $files = array_keys($files);
+
+    return ($files) ? $files : false;
+
+  }
+
   function insertData($directory, $template, $isVerticalSlide){
 
-      $files = array_slice(scandir($directory), 2);
+      $files = scandir_sort_by_date($directory);
 
       foreach($files as $file){
 
@@ -93,6 +110,7 @@
     </main> 
     <div id="contests">
       <h1>Konkursy</h1>
+      <div class="contests-slider">
       <?php 
 
         $contestTemplate = "
@@ -109,7 +127,7 @@
 
 
       ?>
-
+      </div>
     </div>
   </div>
   <script src="js/newses.js"></script>

@@ -146,6 +146,13 @@ p {
 
 }
 
+.contests-slider {
+
+  display: flex;
+  flex-flow: row;
+
+}
+
 #time {
 
   width: 100%;
