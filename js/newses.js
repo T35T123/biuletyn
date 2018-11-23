@@ -4,13 +4,19 @@
 
   let currentJump;
   let offset;
-  let speed = 2000; //miliseconds
+  let speed = 1000; //miliseconds
 
   const calculateJumps = () => {
 
-      
+
     const slides = [...$('#newses>article')];
     let height = $('main').height();
+
+    slides.forEach(s => {
+
+      s.style.height = "auto";
+
+    });
 
     if($(slides[slides.length - 1]).height() < height) slides.pop();
     slides.pop();
