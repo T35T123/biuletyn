@@ -5,6 +5,7 @@
   let currentJump;
   let offset;
   let speed = 1000; //miliseconds
+  let delay = 2000;
 
   const calculateJumps = () => {
 
@@ -66,7 +67,8 @@
   }
 
   $('#newses').on('transitionend', function(){
-
+    
+    setTimeout(() => {
      if(currentJump == jumps.length){
        currentJump = -1;
        offset = 0;
@@ -80,6 +82,7 @@
 
     ++currentJump;
 
+   }, delay);
   });
 
   $(window).resize(function(){

@@ -145,6 +145,7 @@ p {
   grid-row: 1/4;
 
   position: relative;
+  padding-right: 0;
 
 }
 
@@ -152,12 +153,15 @@ p {
 
   z-index: 2;
   position: relative;
-  
+
   background: black;
 
 }
 
-.contests-slider {
+.contests-title > h1 {
+
+  margin: 0;
+  padding: 10px;
 
 }
 

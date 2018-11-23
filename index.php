@@ -131,6 +131,7 @@
     </div>
   </div>
   <script src="js/newses.js"></script>
+  <script src="js/contests.js"></script>
   <script src="js/clock.js"></script>
 </body>
 </html>
