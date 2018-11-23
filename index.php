@@ -23,7 +23,7 @@
 
   }
 
-  function insertData($directory, $template, $isVerticalSlide){
+  function insertData($directory, $template){
 
       $files = scandir_sort_by_date($directory);
 
@@ -35,7 +35,7 @@
 
       }
 
-      if($isVerticalSlide){
+      if(true){
 
         $firstArticle = Yaml::parseFile($directory.'/'.$files[0]);
 
@@ -103,13 +103,13 @@
             </article>
           ";
 
-          insertData('data/komunikaty', $newsTemplate, true);
+          insertData('data/komunikaty', $newsTemplate);
 
         ?>
       </div>
     </main> 
     <div id="contests">
-      <h1>Konkursy</h1>
+      <div class='contests-title'><h1>Konkursy</h1></div>
       <div class="contests-slider">
       <?php 
 

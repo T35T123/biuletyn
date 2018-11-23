@@ -36,7 +36,7 @@ body {
 
   border: 1px solid black;
 
-  padding: 20px;
+  padding: 0 20px;
 
 }
 
@@ -144,12 +144,20 @@ p {
   grid-column: 3/4;
   grid-row: 1/4;
 
+  position: relative;
+
+}
+
+.contests-title {
+
+  z-index: 2;
+  position: relative;
+  
+  background: black;
+
 }
 
 .contests-slider {
-
-  display: flex;
-  flex-flow: row;
 
 }
 
