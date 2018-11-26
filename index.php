@@ -81,6 +81,12 @@
         --><span class="time time-minutes"></span><span>:</span><!--
         --><span class="time time-seconds"></span>
       </div>
+     <span class='time-progress'>=======></span>
+     <div class='time-interval'>
+	<span class='time-interval--begin'>12:25</span>
+	<span class='time-interval--current_state'>Trwa przerwa</span>
+	<span class='time-interval--end'>12:35</span>
+     </div>	
     </div>
     <div id="cinema">
     <h1>Wyjscie do kina</h1>
@@ -133,6 +139,7 @@
   <script src="js/newses.js"></script>
   <script src="js/contests.js"></script>
   <script src="js/clock.js"></script>
+  <script src="js/progress.js"></script>
 </body>
 </html>
 
