@@ -4,8 +4,8 @@
 
   let currentJump;
   let offset;
-  let speed = 1000; //miliseconds
-  let delay = 2000;
+  let speed = 5000; //miliseconds
+  let delay = 10000;
 
   const calculateJumps = () => {
 
