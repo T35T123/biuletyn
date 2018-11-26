@@ -36,12 +36,12 @@ const Progress = (() => {
 
 		for(let i=0; i<lessons.length; i++){
 		  
-						let {start, end} = lessons[i];
+			let {start, end} = lessons[i];
 						
-					  if(timeForCalc >= start && timeForCalc < end){	
-								isLesson = true;
-								break;
-						}
+		  if(timeForCalc >= start && timeForCalc < end){	
+				isLesson = true;
+				break;
+			}
 
 		}
 
