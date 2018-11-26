@@ -5,8 +5,8 @@
 
 	let activeSlide;
 
-	let speed = 1000;
-	let delay = 2000;
+	let speed = 5000;
+	let delay = 10000;
 
 	const initSlide = () => {
 
@@ -36,7 +36,9 @@
 	const slideReset = slide => {
 
 		$(slide).hide();
-		modifyTransform(slide, '0px', '0px');
+		modifyTransform(slide, '0px', '100vh');
+
+		slide.setAttribute('state', 'reset');
 
 	}
 
@@ -46,7 +48,7 @@
 		slide.setAttribute('state', 'active');
 
 		modifyTransition(slide, speed);
-		modifyTransform(slide, '0px', '-100%');
+		modifyTransform(slide, '0px', '0px');
 
 	}
 
@@ -58,7 +60,6 @@
 		slide.setAttribute('state', 'hiding');
 
 		activeSlide = activeSlide < slides.length - 1 ? activeSlide+1 : 0;
-		slideUp(slides[activeSlide]);
 
 	}
 
@@ -66,8 +67,15 @@
 
 		if(this.getAttribute('state') == 'active'){
 
-			slideRight(this);
+			setTimeout(() => slideRight(this), delay);
 			//slideUp(slides[activeSlide]);
+
+		}
+
+		if(this.getAttribute('state') == 'hiding'){
+			
+			slideReset(this);
+			slideUp(slides[activeSlide]);
 
 		}
 
