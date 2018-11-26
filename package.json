@@ -1,0 +1,25 @@
+{
+  "name": "biuletyn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha test/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/T35T123/biuletyn.git"
+  },
+  "author": "wojtek2kdev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/T35T123/biuletyn/issues"
+  },
+  "homepage": "https://github.com/T35T123/biuletyn#readme",
+  "devDependencies": {
+    "chai": "^4.2.0"
+  }
+}
