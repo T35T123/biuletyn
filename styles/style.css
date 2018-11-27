@@ -204,9 +204,10 @@ p {
 
 .time-interval > * {
 
-	flex: 1 1;
+	flex: 0 1 auto;
 
 }
+
 
 .time-interval--end {
 
@@ -214,7 +215,7 @@ p {
 
 	color: red;
 
-	font-size: 1.2rem;
+	font-size: 1.5rem;
 	font-weight: bold;
 
 }
@@ -222,6 +223,11 @@ p {
 .time-interval--current_state {
 
 	font-size: 1.5rem;
+	
+	flex: 1 1;
+
+	text-align: center;
+
 
 }
 
