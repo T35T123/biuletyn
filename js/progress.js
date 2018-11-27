@@ -12,8 +12,17 @@ const Progress = (() => {
 		{start: 15.1, end:15.55}
 	];
 
- const isLessonNow = time => {
+ const numberToTime = num => {
 	
+			minute = Math.round(num * 100) % 100;
+			hour = num - (num * 100 % 100) / 100;
+
+			return {hour, minute};
+
+ }
+
+ const getTimeForCalc = time => {
+
 		let minute, hour;
 		
 		if(!time){
@@ -25,12 +34,19 @@ const Progress = (() => {
 		
 		} else {
 
-			minute = Math.round(time * 100) % 100;
-			hour = time - (time * 100 % 100) / 100;
+			let {hour: h, minute: m} = numberToTime(time);
+			hour = h;
+			minute = m;
 
 		}
 
-		const timeForCalc = hour + minute/100;
+		return hour + minute/100;
+ 
+ }
+
+ const isLessonNow = time => {
+	
+		const timeForCalc = getTimeForCalc(time);
 		
 		let isLesson = false;
 
@@ -59,9 +75,50 @@ const Progress = (() => {
 	
 	}
 
-	//setInterval(, 1000);
+	const getIntervals = time => {
+		
+		const timeForCalc = getTimeForCalc(time);
+
+		for(let i=0; i<lessons.length; i++){
+		  
+			let {start,end} = lessons[i];
+
+			if(timeForCalc >= start && timeForCalc < end){
+			
+				return {start, end};
+
+			}else if(timeForCalc >= end && timeForCalc < lessons[i+1].start){
+				
+				return {
+					start: end,
+					end: lessons[i+1].start
+				};
+
+			}
+
+		}
+	
+
+	}
+
+	setInterval(() => {
+		
+		let {start, end} = getIntervals();
+					
+		$('.time-interval--current_state').text(`Trwa ${ isLessonNow() ? 'lekcja' : 'przerwa' }`);
+
+		let {hour: startHour, minute: startMinute} = numberToTime(start);
+		let {hour: endHour, minute: endMinute} = numberToTime(end);
+
+		$('.time-interval--begin').text(`${startHour}:${startMinute}`);
+		$('.time-interval--end').text(`${endHour}:${endMinute}`);
+
+	}, 1000);
 
 	return {
+		numberToTime,
+		getTimeForCalc,
+		getIntervals,
 		isLessonNow
 	}
 
