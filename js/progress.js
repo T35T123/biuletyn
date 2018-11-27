@@ -12,6 +12,8 @@ const Progress = (() => {
 		{start: 15.1, end:15.55}
 	];
 
+ const getMs = (hour, minute) => new Date().setHours(hour, minute, 0, 0);
+
  const numberToTime = num => {
 	
 			minute = Math.round(num * 100) % 100;
@@ -68,11 +70,29 @@ const Progress = (() => {
 	const calcProgressBarFreeSpace = () => {
 	
 		const progressBarFont = Number($('.time-progress').css('font-size').match('[0-9]+')[0]);
-		const progressBarWidth = Number($('.time-progress').css('width').match('[0-9+]')[0]);
-
-		const maxChars = Math.round(progressBarWidth/progressBarFont);
-
+		const progressBarWidth = Number($('.time-progress').css('width').match('[0-9]+')[0]);
+		return Math.round(progressBarWidth/progressBarFont);
+		
 	
+	}
+
+	const calcProgress = () => {
+		
+		let {start, end} = getIntervals();
+
+		let {hour: startHour, minute: startMinute} = numberToTime(start);
+		let {hour: endHour, minute: endMinute} = numberToTime(end);
+
+		let startInMs = getMs(startHour, startMinute);
+		let endInMs = getMs(endHour, endMinute);
+		let now = new Date().getTime();
+
+		return Math.floor(
+		
+				( (now - startInMs)/(endInMs - startInMs) ) * 100
+		
+		);
+
 	}
 
 	const getIntervals = time => {
@@ -113,13 +133,29 @@ const Progress = (() => {
 		$('.time-interval--begin').text(`${startHour}:${startMinute}`);
 		$('.time-interval--end').text(`${endHour}:${endMinute}`);
 
+		const progress = calcProgress();
+
+		$('.time-progress').text(`${"=".repeat(45*(progress/100))}>`);
+
+		const color = progress < 50 ? 
+						`rgb(${Math.round(255 * (progress/50))}, 255, 0)` : 
+						`rgb(255, ${255 - Math.round(
+										255 * (
+														(progress-50)/50
+													)
+						)}, 0)` ;
+
+		$('.time-progress').css('color', color);
+
 	}, 1000);
 
 	return {
 		numberToTime,
 		getTimeForCalc,
 		getIntervals,
-		isLessonNow
+		isLessonNow,
+		calcProgress,
+		calcProgressBarFreeSpace
 	}
 
 })();
