@@ -121,11 +121,14 @@ const Progress = (() => {
 
 	}
 
+	let dotsCount = 0;
+
 	setInterval(() => {
 		
 		let {start, end} = getIntervals();
 					
-		$('.time-interval--current_state').text(`Trwa ${ isLessonNow() ? 'lekcja' : 'przerwa' }`);
+		$('.time-interval--current_state').text(`Trwa ${ isLessonNow() ? 'lekcja' : 'przerwa' }${".".repeat(dotsCount)}`);
+		dotsCount = dotsCount < 3 ? dotsCount+1 : 0;
 
 		let {hour: startHour, minute: startMinute} = numberToTime(start);
 		let {hour: endHour, minute: endMinute} = numberToTime(end);
