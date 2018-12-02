@@ -1,3 +1,5 @@
 /vendor/
 .*.swp
 node_modules
+.todo
+phpmyadmin
