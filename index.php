@@ -1,49 +1,34 @@
 <?php 
 
   require("vendor/autoload.php");
+	require_once("php/database/dbutils.php");
 
   use Symfony\Component\Yaml\Yaml;
 
   $cinema = Yaml::parseFile('data/kino.yml');
 
-  function scandir_sort_by_date($directory){
+  function convertTimestampToDate($timestamp){
+	
+		preg_match('/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}/', $timestamp, $date);
 
-    $ignored = array('.', '..');
+		return $date[0];
 
-    $files = array();    
-    foreach (scandir($directory) as $file) {
-        if (in_array($file, $ignored)) continue;
-        $files[$file] = filemtime($directory . '/' . $file);
-    }
+	}
 
-    arsort($files);
-    $files = array_keys($files);
+	function putDataInTemplate($template, $isContest){
 
-    return ($files) ? $files : false;
+		$result = DbUtils::executeQuery('select title, date, content from news where type="%s"',
+			[$isContest ? "contest" : "statement"]);
 
-  }
+		$firstRow = $result->fetch_assoc();
+		
+		foreach($result as $r){
+			echo(strtr($template, $r));
+		}
 
-  function insertData($directory, $template){
+		echo(strtr($template, $firstRow));
 
-      $files = scandir_sort_by_date($directory);
-
-      foreach($files as $file){
-
-        $data = Yaml::parseFile($directory.'/'.$file);
-
-        echo(strtr($template, $data));
-
-      }
-
-      if(true){
-
-        $firstArticle = Yaml::parseFile($directory.'/'.$files[0]);
-
-        echo(strtr($template, $firstArticle));
-
-      }
-
-  }
+	}
 
 ?>
 <!doctype html>
@@ -99,17 +84,17 @@
       <div id="newses">
         <?php 
 
-          $newsTemplate = "
+          $statementTemplate = '
             <article>
-              <h1 class='news-header'>title</h1>
-              <div class='news'>
+              <h1 class="news-header">title</h1>
+              <div class="news">
                 <strong>date</strong>
                 <p>content</p>
               </div>
             </article>
-          ";
+					';
 
-          insertData('data/komunikaty', $newsTemplate);
+				putDataInTemplate($statementTemplate, false);
 
         ?>
       </div>
@@ -121,16 +106,13 @@
 
         $contestTemplate = "
           <article>
-            <h1 class='news-header'>title</h1>
+            <h1 class='news-header'>$title</h1>
             <div class='news'>
-              <strong>date</strong>
-              <p>content</p>
+              <strong>$date</strong>
+              <p>$content</p>
             </div>
           </article>
         ";
-
-        insertData('data/konkursy', $contestTemplate);
-
 
       ?>
       </div>
