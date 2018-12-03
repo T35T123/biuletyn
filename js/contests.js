@@ -81,7 +81,7 @@
 
 	});
 
-	initSlide();
+	if(slides.length > 1) initSlide();
 
 
 })();
