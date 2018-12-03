@@ -1,0 +1,123 @@
+* {
+
+	margin: 0;
+	padding: 0;
+
+}
+
+body {
+
+	background: black;
+
+}
+
+h1,h2,h3,h4,h5,p {
+
+	color: white
+
+}
+
+#app {
+
+	width: 100vw;
+	height: 100vh;
+
+	display: flex;
+	flex-flow: column;
+
+}
+
+.navbar {
+
+	width: 100%;
+
+	flex: 0 1 100px;
+
+	position: relative;
+
+}
+
+.navbar-header {
+
+	position: absolute;
+
+	top: 50%;
+	transform: translateY(-50%);
+
+}
+
+.navbar-header > h1 {
+
+	color: #00ff00;
+
+	font-size: 35px;
+	padding-left: 30px;
+
+}
+
+.menu {
+
+	list-style-type: none;
+	
+	display: flex;
+	flex-flow: row;
+
+	height: auto;
+
+	position: absolute;
+	top: 50%;
+	left: 100%;
+	transform: translate(-100%, -50%);
+
+	color: white;
+
+}
+
+.menu > li {
+
+	flex: 0 1 200px;
+
+}
+
+.menu > li > p,a {
+
+	font-size: 26px;
+	padding: 0 25px;
+
+	text-align: center;
+
+	color: white;
+	text-decoration: none;
+
+}
+
+.preview {
+
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	grid-template-rows: 1fr 3fr;
+
+	flex: 1 1;
+
+}
+
+.statements {
+
+	grid-column: 1 / 2;
+	grid-row: 1 / 3;
+
+}
+
+.cinema {
+	
+	grid-column: 2 / 3;
+	grid-row: 1 / 2;
+
+}
+
+.contests {
+
+	grid-column: 2 / 3;
+	grid-row: 2 / 3;
+
+}
