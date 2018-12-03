@@ -26,7 +26,7 @@
 			echo(strtr($template, $r));
 		}
 
-		echo(strtr($template, $firstRow));
+		if(!$isContest) echo(strtr($template, $firstRow));
 
 	}
 
@@ -106,13 +106,15 @@
 
         $contestTemplate = "
           <article>
-            <h1 class='news-header'>$title</h1>
+            <h1 class='news-header'>title</h1>
             <div class='news'>
-              <strong>$date</strong>
-              <p>$content</p>
+              <strong>date</strong>
+              <p>content</p>
             </div>
           </article>
-        ";
+				";
+
+				putDataInTemplate($contestTemplate, true);
 
       ?>
       </div>
