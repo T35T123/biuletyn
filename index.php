@@ -1,11 +1,8 @@
 <?php 
 
-  require("vendor/autoload.php");
 	require_once("php/database/dbutils.php");
 
-  use Symfony\Component\Yaml\Yaml;
-
-  $cinema = Yaml::parseFile('data/kino.yml');
+	$cinema = DbUtils::executeQuery('select title, date from cinema', [])->fetch_assoc();
 
   function convertTimestampToDate($timestamp){
 	
@@ -20,9 +17,17 @@
 		$result = DbUtils::executeQuery('select title, date, content from news where type="%s"',
 			[$isContest ? "contest" : "statement"]);
 
-		$firstRow = $result->fetch_assoc();
+		if(mysqli_fetch_array($result)->count > 1)
+			$firstRow = $result->fetch_assoc();
 		
 		foreach($result as $r){
+
+		  $r['date'] = convertTimestampToDate($r['date']);
+
+			$r = array_map(function($v){
+				return htmlentities($v, ENT_QUOTES, 'utf-8');
+			}, $r);
+
 			echo(strtr($template, $r));
 		}
 
@@ -79,7 +84,18 @@
       <li><strong>Tytuł filmu: </strong><?php echo($cinema['title'])?></li>
       <li><strong>Data wyjścia: </strong><?php echo($cinema['date'])?></li>
     </ul>
-    </div>
+		</div>
+		<div id="info">
+			<p>
+				<strong>Author: </strong>
+				<span>Wojciech Sadowski</span>
+			</p>
+			<p>
+				<strong>Link do projektu: </strong>
+				<span>github.com/wojtek2kdev/zst-info</span>
+			</p>
+			<p>Bug reporty / Bug fixy, Pull requesty oraz propozycje zmian mile widziane.</p>
+		</div>
     <main>
       <div id="newses">
         <?php 
