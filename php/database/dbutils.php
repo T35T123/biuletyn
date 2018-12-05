@@ -11,7 +11,8 @@
         public static function executeQuery($sql, $args, $database='biuletyn'){
             try{
                 $conn = new mysqli(DbInfo::IP, DbInfo::USER, DbInfo::PASSWORD, $database);
-                self::sql_normalize($args, $conn);
+								$conn->set_charset('utf8');
+								self::sql_normalize($args, $conn);
                 if($conn->connect_errno!=0){
                     throw new Exception(mysqli_connect_errno());
                 }else{
