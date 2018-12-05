@@ -32,8 +32,8 @@
 
 	}
 
-	$statements = DbUtils::executeQuery("select * from news where type='statement'", []);
-	$contests = DbUtils::executeQuery("select * from news where type='contest'", []);
+	$statements = DbUtils::executeQuery("select * from news where type='statement' order by id desc", []);
+	$contests = DbUtils::executeQuery("select * from news where type='contest' order by id desc", []);
 	$cinema = DbUtils::executeQuery('select title, date from cinema', [])->fetch_assoc();
 
   function convertTimestampToDate($timestamp){
