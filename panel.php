@@ -1,6 +1,7 @@
 <?php
 
 	require_once 'php/database/dbutils.php';
+	require_once 'php/data-validation.php';
 
 	session_start();
 
@@ -12,6 +13,7 @@
 		session_destroy();
 		header('Location: /login');
 	}
+
 	if(isset($_SESSION['active'])){
 		
 		if(isset($_GET['update'])){
@@ -40,22 +42,37 @@
 
 		if(isset($_GET['add'])){
 
-			if(!$_POST['title'] || !$_POST['date'] || !$_POST['content'] || !$_POST['type']){
+			if($_POST['type'] != 'user'){
 				
-				header("Location: /panel?err=1");
-			
+				if(!$_POST['title'] || !$_POST['date'] || !$_POST['content'] || !$_POST['type']){
+					
+					header("Location: /panel?err=1");
+				
+				} else {
+
+					DbUtils::executeQuery('insert into news(title, date, content, type) values("%s", "%s", "%s", "%s")', 
+						[$_POST['title'], $_POST['date'], $_POST['content'], $_POST['type']]);
+
+				}
+
 			} else {
 
-				DbUtils::executeQuery('insert into news(title, date, content, type) values("%s", "%s", "%s", "%s")', 
-					[$_POST['title'], $_POST['date'], $_POST['content'], $_POST['type']]);
+				if(!$_POST['login'] || !$_POST['password'] || !$_POST['password_confirm']){
+
+					 header("Location: /panel?err=1");
+
+				} else {
+
+						RegisterValidation::validate($_POST['login'], $_POST['password'], $_POST['password_confirm']);					
+
+				}
+
+			}			
 
 			}
 		
-				header('Location: /panel');
+				//header('Location: /panel');
 		
-		}
-
-
 	}
 
 	$statements = DbUtils::executeQuery("select * from news where type='statement' order by id desc", []);
@@ -98,9 +115,9 @@
 
 						$template = '
 							<form method="post">
-								<h2>Tytuł: </h2><input type="text" name="title" value="__title__"></input>
-								<h3>Data: </h3><input type="date" name="date" value="__date__"></input>
-								<h3>Treść: </h3><textarea name="content" >__content__</textarea>
+								<h2>Tytuł: </h2><input type="text" class="input-field" name="title" value="__title__"></input>
+								<h3>Data: </h3><input type="date" class="input-field" name="date" value="__date__"></input>
+								<h3>Treść: </h3><textarea name="content" class="input-field">__content__</textarea>
 								<div class="buttons-container">
 									<button class="btn"formaction="/panel?update=__id__">Zapisz</button>
 									<button class="btn" type="reset">Anuluj</button>
@@ -127,9 +144,9 @@
 			<div class="cinema">
 					<form method="post">
 						<h2>Tytuł filmu: </h2>
-						<input type="text" name="title" value="<?php echo($cinema['title']); ?>">
+						<input type="text" class="input-field" name="title" value="<?php echo($cinema['title']); ?>">
 						<h3>Data: </h3>
-						<input type="date" name="date" value="<?php echo($cinema['date']); ?>">		
+						<input type="date" class="input-field" name="date" value="<?php echo($cinema['date']); ?>">		
 						<button class='btn' formaction="/panel?update=cinema" >Zapisz</button>
 					</form>
 			</div>
@@ -153,20 +170,31 @@
 			</div>
 		</div>
 		<div class="add">
-			<h1>Dodawanie treści</h2>
+		<h1>Dodawanie treści <?php if($_SESSION['role'] == 'admin') echo("/ użytkowników");?></h2>
 			<form method="post">
-				<h3>Tytuł</h3>
-				<input type="text" name="title" required autocomplete='off'>
-				<h3>Data</h3>
-				<input type="date" name="date" id="add_date">
-				<h3>Treść</h3>
-				<textarea name="content" required></textarea>
-				<select name="type">
+				<div class="add-new add-new--news">
+					<label for="title">Tytuł</label>
+					<input type="text" class="input-field" name="title" required autocomplete='off'>
+					<label for="date">Data</label>
+					<input type="date" class="input-field" name="date" id="add_date">
+					<label for="content">Treść</label>
+					<textarea name="content" class="input-field" required></textarea>
+				</div>
+				<div class="add-new add-new--user">
+					<label for="login">Login</label>
+					<input type="text" class="input-field" name="login" autocomplete="off" required disabled>
+					<label for="password">Hasło</label>
+					<input type="password" class="input-field" name="password" required disabled>
+					<label for="password_confirm">Potwierdź hasło</label>
+					<input type="password" class="input-field" name="password_confirm" required disabled>
+				</div>
+				<select name="type" class="input-select" id="addDataType">
 					<option value="statement">Komunikat</option>
 					<option value="contest">Konkurs</option>
+					<?php if($_SESSION['role'] == 'admin') echo('<option value="user">Użytkownik</option>');?>
 				</select>
 				<div class='buttons-container'>
-					<button class='btn' formaction="/panel?add">Dodaj</button>
+					<button class='btn' id="add_send" formaction="/panel?add">Dodaj</button>
 					<button class='btn' id='add_cancel' type="reset">Anuluj</button>
 				</div>
 			</form>
@@ -194,14 +222,35 @@
 			document.querySelector('#mode_switch>p').innerText = editMode ? "Dodaj" : "Edytuj";
 			document.querySelector('.preview').style.display = editMode ? 'grid' : 'none';
 			document.querySelector('.add').style.display = editMode ? 'none' : 'flex';
+			document.querySelector('.add-new--news').style.display = this.value == "user" ? 'none' : 'flex';
+			document.querySelector('.add-new--user').style.display = this.value == "user" ? 'flex' : 'none';	
 		
 	}
 
-		mode_switch.addEventListener('click', switchMode);	 
+	mode_switch.addEventListener('click', switchMode);	 
 
 	add_date.value = new Date().toISOString().match('^.{10}')[0];
 		
 	add_cancel.addEventListener('click', switchMode);
+
+	addDataType.addEventListener('change', function(e){
+
+			document.querySelector('.add-new--news').style.display = this.value == "user" ? 'none' : 'flex';
+			document.querySelector('.add-new--user').style.display = this.value == "user" ? 'flex' : 'none';	
+
+			if(this.value == 'user'){
+					
+					document.querySelectorAll('.add-new--news .input-field').forEach(n => n.setAttribute("disabled", ""));				
+					document.querySelectorAll('.add-new--user .input-field').forEach(n => n.removeAttribute("disabled", ""));				
+
+			} else {
+
+					document.querySelectorAll('.add-new--news .input-field').forEach(n => n.removeAttribute("disabled", ""));				
+					document.querySelectorAll('.add-new--user .input-field').forEach(n => n.setAttribute("disabled", ""));				
+			
+			}
+
+	});
 
 	</script>
 </body>
