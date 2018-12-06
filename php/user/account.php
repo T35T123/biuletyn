@@ -26,7 +26,9 @@
                     throw new Exception($this->_error);
                 }else{
                     session_start();
-                    $_SESSION['active'] = true;
+										$_SESSION['active'] = true;
+										$_SESSION['login'] = $row['login'];
+										$_SESSION['role'] = $row['role'];
                     header('Location: /panel');
                 }
             }
