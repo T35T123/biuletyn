@@ -12,23 +12,49 @@
 		session_destroy();
 		header('Location: /login');
 	}
+	if(isset($_SESSION['active'])){
+		
+		if(isset($_GET['update'])){
+			if($_GET['update'] == 'cinema'){
+					DbUtils::executeQuery('update cinema set title="%s", date="%s"', [$_POST['title'], $_POST['date']]);
+			}	else {
+				DbUtils::executeQuery('update news set title="%s", date="%s", content="%s" where id="%s"',[
+						$_POST['title'],
+						$_POST['date'],
+						$_POST['content'],
+						$_GET['update']
+					]);
+			}
 
-	if(isset($_GET['update']) && isset($_SESSION['active'])){
-		if($_GET['update'] == 'cinema'){
-				DbUtils::executeQuery('update cinema set title="%s", date="%s"', [$_POST['title'], $_POST['date']]);
-		}	else {
-			DbUtils::executeQuery('update news set title="%s", date="%s", content="%s" where id="%s"',[
-					$_POST['title'],
-					$_POST['date'],
-					$_POST['content'],
-					$_GET['update']
-				]);
+		header('Location: /panel');
+
 		}
-	}
 
-	if(isset($_GET['delete']) && isset($_SESSION['active'])){
+		if(isset($_GET['delete'])){
 
-		DbUtils::executeQuery('delete from news where id="%s"', [$_GET['delete']]);
+			DbUtils::executeQuery('delete from news where id="%s"', [$_GET['delete']]);
+
+			header('Location: /panel');
+
+		}
+
+		if(isset($_GET['add'])){
+
+			if(!$_POST['title'] || !$_POST['date'] || !$_POST['content'] || !$_POST['type']){
+				
+				header("Location: /panel?err=1");
+			
+			} else {
+
+				DbUtils::executeQuery('insert into news(title, date, content, type) values("%s", "%s", "%s", "%s")', 
+					[$_POST['title'], $_POST['date'], $_POST['content'], $_POST['type']]);
+
+			}
+		
+				header('Location: /panel');
+		
+		}
+
 
 	}
 
@@ -58,7 +84,7 @@
 				<h1>Panel kontrolny</h1>
 			</header>
 			<ul class="menu">
-				<li>
+				<li id="mode_switch">
 					<p>Dodaj</p>
 				</li>
 				<li> 
@@ -72,7 +98,7 @@
 
 						$template = '
 							<form method="post">
-								<h2>Tytul: </h2><input type="text" name="title" value="__title__"></input>
+								<h2>Tytuł: </h2><input type="text" name="title" value="__title__"></input>
 								<h3>Data: </h3><input type="date" name="date" value="__date__"></input>
 								<h3>Treść: </h3><textarea name="content" >__content__</textarea>
 								<div class="buttons-container">
@@ -126,10 +152,30 @@
 					?>
 			</div>
 		</div>
+		<div class="add">
+			<h1>Dodawanie treści</h2>
+			<form method="post">
+				<h3>Tytuł</h3>
+				<input type="text" name="title" required autocomplete='off'>
+				<h3>Data</h3>
+				<input type="date" name="date" id="add_date">
+				<h3>Treść</h3>
+				<textarea name="content" required></textarea>
+				<select name="type">
+					<option value="statement">Komunikat</option>
+					<option value="contest">Konkurs</option>
+				</select>
+				<div class='buttons-container'>
+					<button class='btn' formaction="/panel?add">Dodaj</button>
+					<button class='btn' id='add_cancel' type="reset">Anuluj</button>
+				</div>
+			</form>
+		</div>
 	</div>
 	<script>
 		
 		const deleteButtons = document.querySelectorAll('.btn--delete');
+		let editMode = true;
 
 		deleteButtons.forEach(btn => {
 
@@ -140,6 +186,22 @@
 			});
 
 		});
+
+		function switchMode() {
+			
+			editMode = !editMode;
+
+			document.querySelector('#mode_switch>p').innerText = editMode ? "Dodaj" : "Edytuj";
+			document.querySelector('.preview').style.display = editMode ? 'grid' : 'none';
+			document.querySelector('.add').style.display = editMode ? 'none' : 'flex';
+		
+	}
+
+		mode_switch.addEventListener('click', switchMode);	 
+
+	add_date.value = new Date().toISOString().match('^.{10}')[0];
+		
+	add_cancel.addEventListener('click', switchMode);
 
 	</script>
 </body>
