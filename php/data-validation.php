@@ -20,12 +20,13 @@
 
     class RegisterValidation extends Validation{
 
-        private static $_login, $_password; 
+        private static $_login, $_password, $_password_confirm; 
 
-        public static function validate($l, $p){
+        public static function validate($l, $p, $c){
 
             self::$_login = parent::normalize($l);
-            self::$_password = parent::normalize($p);
+						self::$_password = parent::normalize($p);
+						self::$_password_confirm = parent::normalize($c);
 
             try{
                 self::_isLoginSet($l);
@@ -33,19 +34,20 @@
                 self::_arePasswordsSame($p, $c);
                 self::_isPasswordStrong($p);
                 self::_isLoginTooLong($l);
-                self::_areInputsCorrect([$l,$n]);
+                self::_areInputsCorrect([$l,$p]);
 
                 $register = new Register(self::$_login, self::$_password);
                 $register->isExistUserWithLogin();
-                $register->addUserToDatabase();
+								$register->addUserToDatabase();
+
             }catch(Exception $e){
-                return $e->getMessage();
+               header("Location: /panel?err=".$e->getMessage()); 
             }
 
         }
 
         private static function _isLoginTooLong($l){
-            if(strlen($l) > 20){
+            if(strlen($l) > 30){
                 throw new Exception("Login is too long! (max 20 letters)");
             }
         }
@@ -81,7 +83,7 @@
                    if($input[$i] != ' ') $correct = true;
                 }
                 if(!$correct){
-                    throw new Exception("Input must includes letter!");
+                    throw new Exception("Input must includes only characters, no whitespaces!");
                 }
             }
         }
