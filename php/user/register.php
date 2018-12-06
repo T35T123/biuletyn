@@ -7,7 +7,7 @@
         private $_login;
         private $_password;
 
-        public function __construct($l, $n, $p){
+        public function __construct($l, $p){
             $this->_login = $l;
             $this->_password = $p;
             $this->_hashPassword();
@@ -23,10 +23,8 @@
         }
 
         public function addUserToDatabase(){
-            $result = DbUtils::executeQuery('insert into user(login,password) values("%s", "%s")', [$this->_login, $this->_password]);
-            if($result){
-                session_start();
-            }else{
+            $result = DbUtils::executeQuery('insert into user(login, password) values("%s", "%s")', [$this->_login, $this->_password]);
+            if(!$result){
                 throw new Exception('Database error, please register when we resolve problem.');
             }
         }
