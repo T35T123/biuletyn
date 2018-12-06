@@ -12,21 +12,29 @@
 
 	}
 
+	function rowDataToNormalText($text){
+		return array_map(function($t){
+					return htmlentities($t, ENT_QUOTES, 'utf-8');
+		}, $text);
+	}
+
 	function putDataInTemplate($template, $isContest){
 
 		$result = DbUtils::executeQuery('select title, date, content from news where type="%s"',
 			[$isContest ? "contest" : "statement"]);
 
-		if(mysqli_fetch_array($result)->count > 1)
+		if($result->num_rows > 1){
 			$firstRow = $result->fetch_assoc();
+			$firstRow = rowDataToNormalText($firstRow);
+
+			$firstRow['date'] = convertTimestampToDate($firstRow['date']);
+		}
 		
 		foreach($result as $r){
 
 		  $r['date'] = convertTimestampToDate($r['date']);
 
-			$r = array_map(function($v){
-				return htmlentities($v, ENT_QUOTES, 'utf-8');
-			}, $r);
+			$r = rowDataToNormalText($r);
 
 			echo(strtr($template, $r));
 		}
