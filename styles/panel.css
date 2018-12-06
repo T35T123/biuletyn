@@ -11,7 +11,7 @@ body {
 
 }
 
-h1,h2,h3 {
+h1,h2,h3,label {
 
 	color: white;
 
@@ -75,7 +75,7 @@ form > input[type=date] {
 
 }
 
-form > input,textarea {
+.input-field {
 
 	margin: 5px 20px;
 
@@ -94,13 +94,13 @@ form > input,textarea {
 
 }
 
-form > input:focus, textarea:focus {
+.input-field:focus {
 
 	border: 2px dashed #00ff00;
 
 }
 
-form > textarea {
+textarea.input-field {
 
 	resize: none;
 
@@ -112,7 +112,7 @@ form > h2 {
 	font-size: 32px;
 }
 
-form > h3 {
+label {
 	font-size: 25px;
 }
 
@@ -231,7 +231,7 @@ form > h3 {
 
 .add {
 
-	display: flex;
+	display: none;
 	flex-flow: column;
 
 	position: relative;
@@ -245,7 +245,7 @@ form > h3 {
 
 }
 
-select {
+.input-select {
 
 	width: 200px;
 	height: 50px;
@@ -265,8 +265,21 @@ select {
 
 }
 
-select > option {
+.input-select > option {
 
 	background: black;
+
+}
+
+.add-new {
+
+	display: flex;
+	flex-flow: column;
+
+}
+
+.add-new--user {
+
+	display: none;
 
 }
