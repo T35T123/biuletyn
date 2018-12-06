@@ -68,7 +68,6 @@
 		if(this.getAttribute('state') == 'active'){
 
 			setTimeout(() => slideRight(this), delay);
-			//slideUp(slides[activeSlide]);
 
 		}
 
