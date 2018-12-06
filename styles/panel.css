@@ -69,6 +69,12 @@ form > input[type=date] {
 
 }
 
+#mode_switch {
+
+	cursor: pointer;
+
+}
+
 form > input,textarea {
 
 	margin: 5px 20px;
@@ -220,5 +226,47 @@ form > h3 {
 
 	grid-column: 2 / 3;
 	grid-row: 2 / 3;
+
+}
+
+.add {
+
+	display: flex;
+	flex-flow: column;
+
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+
+	height: auto;
+	width: 50%;
+
+	padding: 20px;
+
+}
+
+select {
+
+	width: 200px;
+	height: 50px;
+
+	margin-top: 20px;
+
+	border: 2px dashed white;
+	background: none;
+
+	padding: 5px;
+
+	font-size: 20px;
+
+	color: white;
+
+	outline: 0;
+
+}
+
+select > option {
+
+	background: black;
 
 }
