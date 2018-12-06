@@ -8,6 +8,5 @@
         }
     ],
     "require": {
-        "symfony/yaml": "^3.4"
     }
 }

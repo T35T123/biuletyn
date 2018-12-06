@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7bd66150abaf264512da9f41f0f77032",
+    "content-hash": "bb0b4762c20246b192489fb8143da498",
     "packages": [
         {
             "name": "symfony/polyfill-ctype",
