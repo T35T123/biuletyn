@@ -133,8 +133,8 @@ const Progress = (() => {
 		let {hour: startHour, minute: startMinute} = numberToTime(start);
 		let {hour: endHour, minute: endMinute} = numberToTime(end);
 
-		$('.time-interval--begin').text(`${startHour}:${startMinute}`);
-		$('.time-interval--end').text(`${endHour}:${endMinute}`);
+		$('.time-interval--begin').text(`${startHour}:${startMinute < 10 ? "0" + startMinute : startMinute}`);
+		$('.time-interval--end').text(`${endHour}:${endMinute < 10 ? "0" + endMinute : endMinute}`);
 
 		const progress = calcProgress();
 
