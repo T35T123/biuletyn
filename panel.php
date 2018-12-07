@@ -5,6 +5,16 @@
 
 	session_start();
 
+	function changeLastUpdate($action, $item_id=-1){
+
+		DbUtils::executeQuery('insert into modification(author, `modified_news`, `modified_cinema`, action) 
+														values("%s","%s","%s","%s")', [$_SESSION['login'], $item_id, $item_id == -1 ? 1 : 0, $action]);
+
+	}
+
+	$private_key = file_get_contents('.private.key');
+	$public_key = file_get_contents('.public.key');
+
 	if(!isset($_SESSION['active'])){
 		header('Location: /login');
 	}
@@ -14,11 +24,14 @@
 		header('Location: /login');
 	}
 
+
 	if(isset($_SESSION['active'])){
 		
 		if(isset($_GET['update'])){
 			if($_GET['update'] == 'cinema'){
-					DbUtils::executeQuery('update cinema set title="%s", date="%s"', [$_POST['title'], $_POST['date']]);
+				DbUtils::executeQuery('update cinema set title="%s", date="%s"', [$_POST['title'], $_POST['date']]);
+
+				changeLastUpdate('update');
 			}	else {
 				DbUtils::executeQuery('update news set title="%s", date="%s", content="%s" where id="%s"',[
 						$_POST['title'],
@@ -26,6 +39,9 @@
 						$_POST['content'],
 						$_GET['update']
 					]);
+
+				changeLastUpdate('update', $_GET['update']);
+
 			}
 
 		header('Location: /panel');
@@ -34,6 +50,8 @@
 
 		if(isset($_GET['delete'])){
 
+		  changeLastUpdate('delete', $_GET['delete']);
+			
 			DbUtils::executeQuery('delete from news where id="%s"', [$_GET['delete']]);
 
 			header('Location: /panel');
@@ -53,6 +71,10 @@
 					DbUtils::executeQuery('insert into news(title, date, content, type) values("%s", "%s", "%s", "%s")', 
 						[$_POST['title'], $_POST['date'], $_POST['content'], $_POST['type']]);
 
+					$insert_id = DbUtils::getInsertId();	
+					
+					changeLastUpdate('create', $insert_id);
+
 				}
 
 			} else {
@@ -63,7 +85,11 @@
 
 				} else {
 
-						RegisterValidation::validate($_POST['login'], $_POST['password'], $_POST['password_confirm']);					
+						openssl_private_decrypt(base64_decode($_POST['login']), $login, $private_key);
+						openssl_private_decrypt(base64_decode($_POST['password']), $password, $private_key);
+					  openssl_private_decrypt(base64_decode($_POST['password_confirm']), $password_confirm, $private_key);	
+						
+						RegisterValidation::validate($login, $password, $password_confirm);					
 
 				}
 
@@ -91,6 +117,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<script src="js/jsencrypt.min.js"></script>
 	<link rel="stylesheet" href="styles/panel.css">
 	<title>Panel kontrolny</title>
 </head>
@@ -171,7 +198,7 @@
 		</div>
 		<div class="add">
 		<h1>Dodawanie treści <?php if($_SESSION['role'] == 'admin') echo("/ użytkowników");?></h2>
-			<form method="post">
+			<form method="post" id="add_new_form">
 				<div class="add-new add-new--news">
 					<label for="title">Tytuł</label>
 					<input type="text" class="input-field" name="title" required autocomplete='off'>
@@ -187,6 +214,7 @@
 					<input type="password" class="input-field" name="password" required disabled>
 					<label for="password_confirm">Potwierdź hasło</label>
 					<input type="password" class="input-field" name="password_confirm" required disabled>
+					<textarea id="public_key" hidden disabled><?php echo($public_key); ?></textarea>
 				</div>
 				<select name="type" class="input-select" id="addDataType">
 					<option value="statement">Komunikat</option>
@@ -250,6 +278,21 @@
 					document.querySelectorAll('.add-new--user .input-field').forEach(n => n.setAttribute("disabled", ""));				
 			
 			}
+
+	});
+
+
+	
+	const rsa = new JSEncrypt();
+	rsa.setPublicKey(public_key.value);
+
+	add_new_form.addEventListener('submit', function(e){
+
+		let {login, password, password_confirm} = this;
+
+		login.value = rsa.encrypt(login.value);
+		password.value = rsa.encrypt(password.value);
+		password_confirm.value = rsa.encrypt(password_confirm.value);
 
 	});
 
