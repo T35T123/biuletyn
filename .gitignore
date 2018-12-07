@@ -5,3 +5,4 @@ node_modules
 phpmyadmin
 .private.key
 .public.key
+database.sql
