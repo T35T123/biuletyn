@@ -43,18 +43,35 @@
 
 	}
 
+	function fetchLastModifyDate(){
+
+		$time = DbUtils::executeQuery('select `time` from modification order by id desc limit 1', []);
+		$time = $time->fetch_assoc();
+
+		return $time['time'];
+
+	}
+
+	if(isset($_GET['last_modification'])){
+
+		header('Content-type: application/json');
+
+		exit(json_encode(array(
+			"time" => fetchLastModifyDate(),
+		)));
+
+	}
+
 ?>
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script
-        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
-        crossorigin="anonymous"></script>
-  <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-  <script src="js/weather.js"></script>
+  <script src="lib/axios.min.js"></script>
+  <script src="lib/jquery.min.js"></script>
+ <!-- <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script> -->
+	<script src="js/weather.js"></script>
+	<script src="js/autoreload.js"></script>
   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
   <link rel="stylesheet" href="styles/style.css">
   <link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet"> 
