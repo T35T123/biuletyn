@@ -6,7 +6,9 @@
 
         private function __construct(){}
 
-        private function __clone(){}
+				private function __clone(){}
+
+				private static $insertId;
 
         public static function executeQuery($sql, $args, $database='biuletyn'){
             try{
@@ -17,14 +19,21 @@
                     throw new Exception(mysqli_connect_errno());
                 }else{
                     $result = $conn->query(vsprintf($sql, $args));
-                    $conn->close();
+										self::$insertId = $conn->insert_id;
+										$conn->close();
                     return $result;
                 }
             }catch(Exception $e){
                 //obsulga bledu
             }
 
-        }
+				}
+
+				public static function getInsertId(){
+
+					return self::$insertId;
+
+				}
 
         private static function sql_normalize(&$args, $mysqli){
             for($i=0; $i<count($args); $i++){
