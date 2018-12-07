@@ -75,6 +75,18 @@ p {
 
 }
 
+.news > p {
+
+	font-size: 28px;
+
+}
+
+article > h1 {
+
+	font-size: 36px;
+
+}
+
 #newses {
 
   /*transition: transform 1000ms ease 0s;*/
@@ -162,6 +174,8 @@ p {
   /*position: relative;*/
   padding-right: 0;
 
+	overflow: hidden;
+
 }
 
 .contests-title {
@@ -175,8 +189,8 @@ p {
 
 .contests-title > h1 {
 
-  margin: 0;
-  padding: 10px;
+		margin: 0;
+		padding: 10px;
 
 }
 
