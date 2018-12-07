@@ -200,6 +200,7 @@
 			</form>
 		</div>
 	</div>
+	<script src="js/jsencrypt.min.js"></script>
 	<script>
 		
 		const deleteButtons = document.querySelectorAll('.btn--delete');
