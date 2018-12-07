@@ -171,7 +171,6 @@ article > h1 {
   grid-column: 3/4;
   grid-row: 1/4;
 
-  /*position: relative;*/
   padding-right: 0;
 
 	overflow: hidden;
