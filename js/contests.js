@@ -4,9 +4,10 @@
 	const slides = [...$('.contests-slider>article')];
 
 	let activeSlide;
+	let activeSlideOffsetY = 0;
 
 	let speed = 5000;
-	let delay = 10000;
+	let delay = 1000;
 
 	const initSlide = () => {
 
@@ -23,7 +24,20 @@
 
 		setTimeout(() => {
 
-			slideRight(slides[0]);
+			if($(slides[0]).height() + activeSlideOffsetY > $('#contests').height()){
+				
+				activeSlideOffsetY -= $('#contests').height() - $('.contests-title > h1').height()
+					- Number($('.contests-title > h1').css('padding').match('^[0-9]{2}')[0])*2 -10;
+				setTimeout(() => slideUp(slides[0], activeSlideOffsetY), delay);
+
+				console.log('offset: ', activeSlideOffsetY
+									 );
+
+			}	else {
+
+					setTimeout(() => slideRight(slides[0], activeSlideOffsetY), delay);
+			
+			}
 
 		}, delay);
 
@@ -42,20 +56,20 @@
 
 	}
 
-	const slideUp = slide => {
+	const slideUp = (slide, offset=0) => {
 
 		$(slide).show();
 		slide.setAttribute('state', 'active');
 
 		modifyTransition(slide, speed);
-		modifyTransform(slide, '0px', '0px');
+		modifyTransform(slide, '0px', `${offset}px`);
 
 	}
 
-	const slideRight = slide => {
+	const slideRight = (slide, offsetY) => {
 
 		modifyTransition(slide, speed);
-		modifyTransform(slide, '100vh', '0px');
+		modifyTransform(slide, '100vh', `${offsetY}px`);
 
 		slide.setAttribute('state', 'hiding');
 
@@ -67,13 +81,24 @@
 
 		if(this.getAttribute('state') == 'active'){
 
-			setTimeout(() => slideRight(this), delay);
+			if($(this).height() + activeSlideOffsetY > $('#contests').height()){
+				
+				activeSlideOffsetY -= $('#contests').height() - $('.contests-title > h1').height()
+					- Number($('.contests-title > h1').css('padding').match('^[0-9]{2}')[0])*2 -10;
+				setTimeout(() => slideUp(this, activeSlideOffsetY), delay);
+
+			}	else {
+
+					setTimeout(() => slideRight(this, activeSlideOffsetY), delay);
+			
+			}
 
 		}
 
 		if(this.getAttribute('state') == 'hiding'){
 			
 			slideReset(this);
+			activeSlideOffsetY = 0;
 			slideUp(slides[activeSlide]);
 
 		}
