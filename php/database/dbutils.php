@@ -1,6 +1,6 @@
 <?php
 
-    require_once(__DIR__.'/dbinfo.php');
+//    require_once(__DIR__.'/dbinfo.php');
 
     class DbUtils{
 
@@ -11,8 +11,14 @@
 				private static $insertId;
 
         public static function executeQuery($sql, $args, $database='biuletyn'){
-            try{
-                $conn = new mysqli(DbInfo::IP, DbInfo::USER, DbInfo::PASSWORD, $database);
+            
+	
+	$IP = "127.0.0.1";
+	$USER = "root";
+	$PASSWORD = "ZSTInfo-2018#";
+
+	try{
+                $conn = new mysqli($IP, $USER, $PASSWORD, $database);
 								$conn->set_charset('utf8');
 								self::sql_normalize($args, $conn);
                 if($conn->connect_errno!=0){

@@ -112,7 +112,7 @@
 		</div>
 		<div id="info">
 			<p>
-				<strong>Author: </strong>
+				<strong>Autor: </strong>
 				<span>Wojciech Sadowski</span>
 			</p>
 			<p>

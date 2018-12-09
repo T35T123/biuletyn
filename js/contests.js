@@ -6,8 +6,8 @@
 	let activeSlide;
 	let activeSlideOffsetY = 0;
 
-	let speed = 1000;
-	let delay = 5000;
+	let speed = 4000;
+	let delay = 30000;
 
 	const initSlide = () => {
 
