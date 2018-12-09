@@ -1,6 +1,6 @@
 (() => {
 
-	const domain = "/";
+	const domain = window.location.href;
 
 	setInterval(() => {
 	
@@ -10,7 +10,7 @@
 				
 				localStorage.setItem('last_modification', time);
 
-				window.location = domain; 
+				window.location.reload(); 
 
 			}
 
