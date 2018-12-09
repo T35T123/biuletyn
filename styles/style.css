@@ -126,9 +126,10 @@ article > h1 {
 
 }
 
-#temperature {
 
-  font-size: 1.5rem;
+#weather > ul {
+
+	font-size: 1.8rem;
 
 }
 
@@ -152,12 +153,20 @@ article > h1 {
 
 }
 
+#cinema > ul {
+
+	font-size: 1.8rem;
+
+}
+
 #info {
 
 	grid-column: 1/2;
 	grid-row: 4/5;
 
 	padding: 30px;
+
+	font-size: 1.2rem;
 
 }
 
@@ -174,7 +183,7 @@ article > h1 {
 
 .news > p {
 
-	font-size: 1.3rem;
+	font-size: 1.6rem;
 
 }
 
